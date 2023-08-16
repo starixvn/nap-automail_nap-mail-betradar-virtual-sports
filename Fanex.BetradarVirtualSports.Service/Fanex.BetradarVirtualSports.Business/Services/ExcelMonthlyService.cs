@@ -32,7 +32,7 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
         excelWorksheet.Cells["A4"].LoadFromCollection(data.Item1, false);
 
         FormatHeader(excelWorksheet);
-        FormatContent(excelWorksheet, data.Item1);
+        FormatContent(excelWorksheet);
         FormatTotal(excelWorksheet, excelTotal, data.Item2.ToList());
 
         return Save(excelPackage);
@@ -44,7 +44,7 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
         excelWorksheet.Cells["A2"].Value = $"{date.FromDate:MM/dd/yyyy} - {date.ToDate:MM/dd/yyyy}";
     }
 
-    private static void FormatContent(ExcelWorksheet excelWorksheet, IEnumerable<GrossWinningMonthly> dataContent)
+    private static void FormatContent(ExcelWorksheet excelWorksheet)
     {
         const int StartRowIndex = 4;
         var endRowIndex = excelWorksheet.Dimension.End.Row;

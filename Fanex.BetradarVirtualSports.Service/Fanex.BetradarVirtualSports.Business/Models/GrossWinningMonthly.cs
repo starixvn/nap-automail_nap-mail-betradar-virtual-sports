@@ -1,27 +1,26 @@
 ﻿using System;
 
-namespace Fanex.BetradarVirtualSports.Business.Models
+namespace Fanex.BetradarVirtualSports.Business.Models;
+
+public class GrossWinningMonthly
 {
-    public class GrossWinningMonthly
-    {
-        public DateTime Date { get; set; }
+    public DateTime Date { get; set; }
 
-        public string GameType { get; set; }
+    public string GameType { get; set; }
 
-        public string Business { get; set; }
+    public string Business { get; set; }
 
-        public string Currency { get; set; }
+    public string Currency { get; set; }
 
-        public string DeviceGroup { get; set; }
+    public string DeviceGroup { get; set; }
 
-        public int BetCount { get; set; }
+    public int BetCount { get; set; }
 
-        public decimal TotalBet { get; set; }
+    public decimal TotalBet { get; set; }
 
-        public decimal TotalPayout { get; set; }
+    public decimal TotalPayout { get; set; }
 
-        public decimal TotalWinLoss { get; set; }
+    public decimal TotalWinLoss { get; set; }
 
-        public decimal Margin { get; set; }
-    }
+    public decimal Margin { get; set; }
 }

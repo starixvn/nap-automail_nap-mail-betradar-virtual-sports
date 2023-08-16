@@ -1,7 +1,6 @@
-﻿namespace Fanex.BetradarVirtualSports.Business.Models
+﻿namespace Fanex.BetradarVirtualSports.Business.Models;
+
+public class TaskStatusModel
 {
-    public class TaskStatusModel
-    {
-        public bool DataIsReady { get; set; }
-    }
+    public bool DataIsReady { get; set; }
 }

@@ -12,12 +12,9 @@ public class DateRangeBusinessImp : DateRange
         get
         {
             var date = DateTime.Now.AddDays(-1);
-            if (date.Day == MaxDay && date.Month == MaxMonth)
-            {
-                return Convert.ToDateTime($"{date:yyyy-MM-01}");
-            }
-
-            return Convert.ToDateTime($"{date.AddMonths(-1):yyyy-MM-01}");
+            return Convert.ToDateTime(date is { Day: MaxDay, Month: MaxMonth } 
+                ? $"{date:yyyy-MM-01}" 
+                : $"{date.AddMonths(-1):yyyy-MM-01}");
         }
     }
 
@@ -26,7 +23,7 @@ public class DateRangeBusinessImp : DateRange
         get
         {
             var date = DateTime.Now.AddDays(-1);
-            if (date.Day == MaxDay && date.Month == MaxMonth)
+            if (date is { Day: MaxDay, Month: MaxMonth })
             {
                 return Convert.ToDateTime($"{date:yyyy-MM-dd}");
             }

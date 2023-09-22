@@ -45,10 +45,12 @@ public class ExcelDailyServiceImp : ExcelDailyService
 
     private static void FormatContent(ExcelWorksheet excelWorksheet, IEnumerable<GrossWinningDaily> dataContent)
     {
+        const int one = 1;
+        const int two = 2;
         const int StartRowIndex = 4;
         var endRowIndex = excelWorksheet.Dimension.End.Row;
         const int StartColumnIndex = 1;
-        var endColumnIndex = excelWorksheet.Dimension.End.Column + 1;
+        var endColumnIndex = excelWorksheet.Dimension.End.Column + one;
         for (var columnIndex = StartColumnIndex; columnIndex < endColumnIndex; columnIndex++)
         {
             excelWorksheet.Cells[StartRowIndex, columnIndex, endRowIndex, columnIndex].StyleID = excelWorksheet.Cells[StartRowIndex, columnIndex].StyleID;
@@ -63,9 +65,9 @@ public class ExcelDailyServiceImp : ExcelDailyService
             {
                 var dateCount = date.Count();
                 var startDateRow = endDateRowIndex;
-                var endDateRow = startDateRow + dateCount - 1;
-                endDateRowIndex = endDateRow + 1;
-                excelWorksheet.Cells[startDateRow, 1, endDateRow, 1].Merge = true;
+                var endDateRow = startDateRow + dateCount - one;
+                endDateRowIndex = endDateRow + one;
+                excelWorksheet.Cells[startDateRow, one, endDateRow, one].Merge = true;
 
                 date.GroupBy(g => g.Business)
                     .ToList()
@@ -73,23 +75,26 @@ public class ExcelDailyServiceImp : ExcelDailyService
                     {
                         var businessCount = business.Count();
                         var startBusinessRow = endBusinessRowIndex;
-                        var endBusinessRow = startBusinessRow + businessCount - 1;
-                        endBusinessRowIndex = endBusinessRow + 1;
-                        excelWorksheet.Cells[startBusinessRow, 2, endBusinessRow, 2].Merge = true;
+                        var endBusinessRow = startBusinessRow + businessCount - one;
+                        endBusinessRowIndex = endBusinessRow + one;
+                        excelWorksheet.Cells[startBusinessRow, two, endBusinessRow, two].Merge = true;
                     });
             });
     }
 
     private static void FormatTotal(ExcelWorksheet excelWorksheet, ExcelWorksheet excelTotal, List<GrossWinningDaily> dataTotal)
     {
-        var startRowIndex = excelWorksheet.Dimension.End.Row + 1;
+        const int one = 1;
+        const int two = 2;
+        const int four = 4;
+        var startRowIndex = excelWorksheet.Dimension.End.Row + one;
         const int StartColumnIndex = 1;
-        var endColumnIndex = excelWorksheet.Dimension.End.Column + 1;
+        var endColumnIndex = excelWorksheet.Dimension.End.Column + one;
         excelWorksheet.Cells[$"A{startRowIndex}"].LoadFromCollection(dataTotal, false);
         var endRowIndex = excelWorksheet.Dimension.End.Row;
         for (var columnIndex = StartColumnIndex; columnIndex < endColumnIndex; columnIndex++)
         {
-            excelWorksheet.Cells[startRowIndex, columnIndex, endRowIndex, columnIndex].StyleID = excelTotal.Cells[4, columnIndex].StyleID;
+            excelWorksheet.Cells[startRowIndex, columnIndex, endRowIndex, columnIndex].StyleID = excelTotal.Cells[four, columnIndex].StyleID;
         }
 
         var endDateRowIndex = startRowIndex;
@@ -99,10 +104,10 @@ public class ExcelDailyServiceImp : ExcelDailyService
             {
                 var dateCount = date.Count();
                 var startDateRow = endDateRowIndex;
-                var endDateRow = startDateRow + dateCount - 1;
-                endDateRowIndex = endDateRow + 1;
-                excelWorksheet.Cells[startDateRow, 1, endDateRow, 2].Merge = true;
-                excelWorksheet.Cells[startDateRow, 1, endDateRow, 2].Value = "Total In";
+                var endDateRow = startDateRow + dateCount - one;
+                endDateRowIndex = endDateRow + one;
+                excelWorksheet.Cells[startDateRow, one, endDateRow, two].Merge = true;
+                excelWorksheet.Cells[startDateRow, one, endDateRow, two].Value = "Total In";
             });
     }
 

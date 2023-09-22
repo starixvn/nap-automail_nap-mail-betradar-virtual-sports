@@ -60,14 +60,17 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
 
     private static void FormatTotal(ExcelWorksheet excelWorksheet, ExcelWorksheet excelTotal, List<GrossWinningMonthly> dataTotal)
     {
-        var startRowIndex = excelWorksheet.Dimension.End.Row + 1;
-        const int StartColumnIndex = 1;
-        var endColumnIndex = excelWorksheet.Dimension.End.Column + 1;
+        const int one = 1;
+        const int three = 3;
+        const int four = 4;
+        var startRowIndex = excelWorksheet.Dimension.End.Row + one;
+        const int StartColumnIndex = one;
+        var endColumnIndex = excelWorksheet.Dimension.End.Column + one;
         excelWorksheet.Cells[$"A{startRowIndex}"].LoadFromCollection(dataTotal, false);
         var endRowIndex = excelWorksheet.Dimension.End.Row;
         for (var columnIndex = StartColumnIndex; columnIndex < endColumnIndex; columnIndex++)
         {
-            excelWorksheet.Cells[startRowIndex, columnIndex, endRowIndex, columnIndex].StyleID = excelTotal.Cells[4, columnIndex].StyleID;
+            excelWorksheet.Cells[startRowIndex, columnIndex, endRowIndex, columnIndex].StyleID = excelTotal.Cells[four, columnIndex].StyleID;
         }
 
         var endDateRowIndex = startRowIndex;
@@ -77,10 +80,10 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
             {
                 var dateCount = date.Count();
                 var startDateRow = endDateRowIndex;
-                var endDateRow = startDateRow + dateCount - 1;
-                endDateRowIndex = endDateRow + 1;
-                excelWorksheet.Cells[startDateRow, 1, endDateRow, 3].Merge = true;
-                excelWorksheet.Cells[startDateRow, 1, endDateRow, 3].Value = "Total In";
+                var endDateRow = startDateRow + dateCount - one;
+                endDateRowIndex = endDateRow + one;
+                excelWorksheet.Cells[startDateRow, one, endDateRow, three].Merge = true;
+                excelWorksheet.Cells[startDateRow, one, endDateRow, three].Value = "Total In";
             });
     }
 

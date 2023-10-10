@@ -1,4 +1,5 @@
-﻿using Fanex.BetradarVirtualSports.Business.Services;
+﻿using Fanex.BetradarVirtualSports.Business.Models;
+using Fanex.BetradarVirtualSports.Business.Services;
 using Fanex.MailDelivery.Client.Jobs;
 using Fanex.MailDelivery.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -6,7 +7,7 @@ using Quartz;
 
 namespace Fanex.BetradarVirtualSports.Service.Services;
 
-public class ExecuteMonthlyService : JobBase
+public class ExecuteMonthlyVS2Service : JobBase
 {
     protected override JobMessage Run(Schedule schedule, IJobExecutionContext jobContext)
     {
@@ -14,7 +15,7 @@ public class ExecuteMonthlyService : JobBase
         var serviceProvider = services.BuildServiceProvider();
 
         var mainService = serviceProvider.GetService<MainMonthlyService>();
-        var result = mainService.Execute();
+        var result = mainService.Execute(Product.VS2);
         return new JobMessage
         {
             JobStatus = result.JobStatus,

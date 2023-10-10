@@ -6,7 +6,7 @@ namespace Fanex.BetradarVirtualSports.Business.Services;
 
 public interface MainMonthlyService
 {
-    JobMessage Execute();
+    JobMessage Execute(Product product);
 }
 
 public class MainMonthlyServiceImp : MainMonthlyService
@@ -28,13 +28,13 @@ public class MainMonthlyServiceImp : MainMonthlyService
         this.mailService = mailService;
     }
 
-    public JobMessage Execute()
+    public JobMessage Execute(Product product)
     {
         var result = new ExecuteResultModel();
         var jobMessage = new JobMessage();
         try
         {
-            result = SendNotification();
+            result = SendNotification(product);
         }
         catch (Exception e)
         {
@@ -56,16 +56,16 @@ public class MainMonthlyServiceImp : MainMonthlyService
         return jobMessage;
     }
 
-    private ExecuteResultModel SendNotification()
+    private ExecuteResultModel SendNotification(Product product)
     {
         if (!dataService.IsDataAvailable())
         {
             return new ExecuteResultModel { Success = false, Message = "DataIsNotReady, TaskID = 38" };
         }
 
-        var data = dataService.QueryMonthlyData();
-        var excelPath = excelService.Export(data);
-        var mail = mailService.CreateMailMonthly(excelPath);
+        var data = dataService.QueryMonthlyData(product);
+        var excelPath = excelService.Export(data, product);
+        var mail = mailService.CreateMailMonthly(excelPath, product);
 
         return new ExecuteResultModel
         {

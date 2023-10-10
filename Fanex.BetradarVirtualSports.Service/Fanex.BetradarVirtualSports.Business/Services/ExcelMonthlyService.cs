@@ -10,7 +10,11 @@ namespace Fanex.BetradarVirtualSports.Business.Services;
 public interface ExcelMonthlyService
 {
     string Export(
-        (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) data);
+        (
+            IEnumerable<GrossWinningMonthly> firstResultSet,
+            IEnumerable<GrossWinningMonthly> secondResultSet) data,
+        Product product
+        );
 }
 
 public class ExcelMonthlyServiceImp : ExcelMonthlyService
@@ -23,10 +27,11 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
     }
 
     public string Export(
-        (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) data)
+        (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) data, Product product)
     {
-        using var excelPackage = new ExcelPackage(new FileInfo("Templates/Monthly-Template.xlsx"));
-        using var excelWorksheet = excelPackage.Workbook.Worksheets["BetradarVS_Monthly"];
+        var sheetName = product == Product.VS2 ? "BetradarVS_Monthly" : "Virtual Sports 3";
+        using var excelPackage = new ExcelPackage(new FileInfo($"Templates/Monthly-{product}-Template.xlsx"));
+        using var excelWorksheet = excelPackage.Workbook.Worksheets[sheetName];
         using var excelTotal = excelPackage.Workbook.Worksheets["Total"];
 
         excelWorksheet.Cells["A4"].LoadFromCollection(data.Item1, false);
@@ -35,7 +40,7 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
         FormatContent(excelWorksheet);
         FormatTotal(excelWorksheet, excelTotal, data.Item2.ToList());
 
-        return Save(excelPackage);
+        return Save(excelPackage, product);
     }
 
     private void FormatHeader(ExcelWorksheet excelWorksheet)
@@ -64,11 +69,11 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
         const int three = 3;
         const int four = 4;
         var startRowIndex = excelWorksheet.Dimension.End.Row + one;
-        const int StartColumnIndex = one;
+        const int startColumnIndex = one;
         var endColumnIndex = excelWorksheet.Dimension.End.Column + one;
         excelWorksheet.Cells[$"A{startRowIndex}"].LoadFromCollection(dataTotal, false);
         var endRowIndex = excelWorksheet.Dimension.End.Row;
-        for (var columnIndex = StartColumnIndex; columnIndex < endColumnIndex; columnIndex++)
+        for (var columnIndex = startColumnIndex; columnIndex < endColumnIndex; columnIndex++)
         {
             excelWorksheet.Cells[startRowIndex, columnIndex, endRowIndex, columnIndex].StyleID = excelTotal.Cells[four, columnIndex].StyleID;
         }
@@ -87,11 +92,13 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
             });
     }
 
-    private string Save(ExcelPackage excelPackage)
+    private string Save(ExcelPackage excelPackage, Product product)
     {
         excelPackage.Workbook.Worksheets.Delete("Total");
         var date = dateRangeService.DateRange();
-        var fileName = $"Betradar_Virtual_Sports_Monthly_Report_{date.FromDate:MMddyyyy}_{date.ToDate:MMddyyyy}.xlsx";
+        var fileName = product == Product.VS2
+            ? $"Betradar_Virtual_Sports_Monthly_Report_{date.FromDate:MMddyyyy}_{date.ToDate:MMddyyyy}.xlsx"
+            : $"Virtual_Sports3_Monthly_Report_{date.FromDate:MMddyyyy}_{date.ToDate:MMddyyyy}.xlsx";
         var path = $@"{AppConfigService.Config.Path}/{DateTime.Now:yyyy}";
         Directory.CreateDirectory(path);
         var fullPath = $@"{path}/{fileName}";

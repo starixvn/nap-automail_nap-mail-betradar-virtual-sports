@@ -9,7 +9,8 @@
 	<ItemGroup>
 	  <None Remove="App_Data\DBWH.bodb_dwrs.dwrs.xml" />
 	  <None Remove="Templates\Daily-Template.xlsx" />
-	  <None Remove="Templates\Monthly-Template.xlsx" />
+	  <None Remove="Templates\Monthly-VS2-Template.xlsx" />
+	  <None Remove="Templates\Monthly-VS3-Template.xlsx" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -37,7 +38,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Properties\launchSettings.json" />
-    <Content Include="Templates\Monthly-Template.xlsx">
+    <Content Include="Templates\Monthly-VS3-Template.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Templates\Monthly-VS2-Template.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Templates\Daily-Template.xlsx">
@@ -63,7 +67,10 @@
     <Content Update="appsettings.UAT.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Update="Templates\Monthly-Template.cshtml">
+    <Content Update="Templates\Monthly-VS3-Template.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Templates\Monthly-VS2-Template.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Templates\Daily-Template.cshtml">

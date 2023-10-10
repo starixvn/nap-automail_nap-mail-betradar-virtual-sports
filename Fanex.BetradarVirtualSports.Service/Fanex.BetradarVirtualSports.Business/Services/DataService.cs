@@ -9,7 +9,7 @@ public interface DataService
 {
     (IEnumerable<GrossWinningDaily> firstResultSet, IEnumerable<GrossWinningDaily> secondResultSet) QueryDailyData();
 
-    (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) QueryMonthlyData();
+    (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) QueryMonthlyData(Product product);
 
     bool IsDataAvailable();
 }
@@ -32,10 +32,10 @@ public class DataServiceImp : DataService
         return repository.FetchMultiple<GrossWinningDaily, GrossWinningDaily>(criteria);
     }
 
-    public (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) QueryMonthlyData()
+    public (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) QueryMonthlyData(Product product)
     {
         var date = dateService.DateRange();
-        var criteria = new MonthlyCriteria { FromDate = date.FromDate, ToDate = date.ToDate };
+        var criteria = new MonthlyCriteria { FromDate = date.FromDate, ToDate = date.ToDate, ProductID = product };
         var data = repository.FetchMultiple<GrossWinningMonthly, GrossWinningMonthly>(criteria);
         return data;
     }

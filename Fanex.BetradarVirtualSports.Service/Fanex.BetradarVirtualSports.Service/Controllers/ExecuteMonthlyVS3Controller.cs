@@ -1,4 +1,5 @@
-﻿using Fanex.BetradarVirtualSports.Business.Services;
+﻿using Fanex.BetradarVirtualSports.Business.Models;
+using Fanex.BetradarVirtualSports.Business.Services;
 using Fanex.MailDelivery.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,11 +7,11 @@ namespace Fanex.BetradarVirtualSports.Service.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ExecuteMonthlyController : ControllerBase
+public class ExecuteMonthlyVS3Controller : ControllerBase
 {
     private readonly MainMonthlyService mainService;
 
-    public ExecuteMonthlyController(MainMonthlyService mainService)
+    public ExecuteMonthlyVS3Controller(MainMonthlyService mainService)
     {
         this.mainService = mainService;
     }
@@ -18,6 +19,6 @@ public class ExecuteMonthlyController : ControllerBase
     [HttpGet]
     public JobMessage Get()
     {
-        return mainService.Execute();
+        return mainService.Execute(Product.VS3);
     }
 }

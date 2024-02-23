@@ -29,7 +29,14 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
     public string Export(
         (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) data, Product product)
     {
-        var sheetName = product == Product.VS2 ? "BetradarVS_Monthly" : "Virtual Sports 3";
+        var sheetsNames = new Dictionary<Product, string>
+        {
+            { Product.VS2, "BetradarVS_Monthly" },
+            { Product.VS3, "Virtual Sports 3" },
+            { Product.VS4, "Virtual Sports 4" },
+        };
+
+        var sheetName = sheetsNames[product];
         using var excelPackage = new ExcelPackage(new FileInfo($"Templates/Monthly-{product}-Template.xlsx"));
         using var excelWorksheet = excelPackage.Workbook.Worksheets[sheetName];
         using var excelTotal = excelPackage.Workbook.Worksheets["Total"];
@@ -94,11 +101,16 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
 
     private string Save(ExcelPackage excelPackage, Product product)
     {
+        var fileNames = new Dictionary<Product, string>
+        {
+            { Product.VS2, "Betradar_Virtual_Sports_Monthly_Report" },
+            { Product.VS3, "Virtual_Sports3_Monthly_Report" },
+            { Product.VS4, "Virtual_Sports4_Monthly_Report" },
+        };
+
         excelPackage.Workbook.Worksheets.Delete("Total");
         var date = dateRangeService.DateRange();
-        var fileName = product == Product.VS2
-            ? $"Betradar_Virtual_Sports_Monthly_Report_{date.FromDate:MMddyyyy}_{date.ToDate:MMddyyyy}.xlsx"
-            : $"Virtual_Sports3_Monthly_Report_{date.FromDate:MMddyyyy}_{date.ToDate:MMddyyyy}.xlsx";
+        var fileName = $"{fileNames[product]}_{date.FromDate:MMddyyyy}_{date.ToDate:MMddyyyy}.xlsx";
         var path = $@"{AppConfigService.Config.Path}/{DateTime.Now:yyyy}";
         Directory.CreateDirectory(path);
         var fullPath = $@"{path}/{fileName}";

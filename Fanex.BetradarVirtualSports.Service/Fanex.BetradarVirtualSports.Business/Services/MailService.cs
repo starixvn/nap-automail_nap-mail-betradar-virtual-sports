@@ -42,15 +42,20 @@ public class MailServiceImp : MailService
 
     public Mail CreateMailMonthly(string fileName, Product product)
     {
+        var subjects = new Dictionary<Product, string>
+        {
+            { Product.VS2, "[Betradar Virtual Sports] - Monthly Report" },
+            { Product.VS3, "[Virtual Sports 3] - Monthly Report" },
+            { Product.VS4, "[Virtual Sports 4] - Monthly Report" },
+        };
+
         var attachments = new List<MailAttachment>
         {
             new(fileName, FileExtension.MS_EXCEL)
         };
 
         var date = dateRangeService.DateRange();
-        var subject = product == Product.VS2
-            ? $"[Betradar Virtual Sports] - Monthly Report - {date.FromDate:MM/dd/yyyy} - {date.ToDate:MM/dd/yyyy}"
-            : $"[Virtual Sports 3] - Monthly Report - {date.FromDate:MM/dd/yyyy} - {date.ToDate:MM/dd/yyyy}";
+        var subject = $"{subjects[product]} - {date.FromDate:MM/dd/yyyy} - {date.ToDate:MM/dd/yyyy}";
         return new Mail
         {
             Title = "ONEworks Auto Generated Report Administrator",

@@ -12,6 +12,7 @@
 	  <None Remove="Templates\Monthly-VS2-Template.xlsx" />
 	  <None Remove="Templates\Monthly-VS3-Template.xlsx" />
 	  <None Remove="Templates\Monthly-VS4-Template.xlsx" />
+	  <None Remove="Templates\Monthly-VS5-Template.xlsx" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -39,6 +40,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Properties\launchSettings.json" />
+    <Content Include="Templates\Monthly-VS5-Template.xlsx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Templates\Monthly-VS4-Template.xlsx">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -69,6 +73,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="appsettings.UAT.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Templates\Monthly-VS5-Template.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Update="Templates\Monthly-VS4-Template.cshtml">

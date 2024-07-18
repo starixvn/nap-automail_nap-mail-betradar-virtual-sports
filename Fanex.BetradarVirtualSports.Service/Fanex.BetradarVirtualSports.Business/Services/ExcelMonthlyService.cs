@@ -32,8 +32,9 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
         var sheetsNames = new Dictionary<Product, string>
         {
             { Product.VS2, "BetradarVS_Monthly" },
-            { Product.VS3, "Virtual Sports 3" },
-            { Product.VS4, "Virtual Sports 4" },
+            { Product.VS3, "VS3_Monthly" },
+            { Product.VS4, "VS4_Monthly" },
+            { Product.VS5, "VS5_Monthly" },
         };
 
         var sheetName = sheetsNames[product];
@@ -41,11 +42,19 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
         using var excelWorksheet = excelPackage.Workbook.Worksheets[sheetName];
         using var excelTotal = excelPackage.Workbook.Worksheets["Total"];
 
-        excelWorksheet.Cells["A4"].LoadFromCollection(data.Item1, false);
-
+        excelWorksheet.Cells["A4"].LoadFromCollection(data.firstResultSet, false);
         FormatHeader(excelWorksheet);
-        FormatContent(excelWorksheet);
-        FormatTotal(excelWorksheet, excelTotal, data.Item2.ToList());
+
+        if (data.firstResultSet.Any())
+        {
+            FormatContent(excelWorksheet);
+            FormatTotal(excelWorksheet, excelTotal, data.secondResultSet.ToList());
+        }
+        else
+        {
+            excelWorksheet.Cells["A4:J4"].Value = "There is no data displayed";
+            excelWorksheet.Cells["A4:J4"].Merge = true;
+        }
 
         return Save(excelPackage, product);
     }
@@ -106,6 +115,7 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
             { Product.VS2, "Betradar_Virtual_Sports_Monthly_Report" },
             { Product.VS3, "Virtual_Sports3_Monthly_Report" },
             { Product.VS4, "Virtual_Sports4_Monthly_Report" },
+            { Product.VS5, "Virtual_Sports5_Monthly_Report" },
         };
 
         excelPackage.Workbook.Worksheets.Delete("Total");

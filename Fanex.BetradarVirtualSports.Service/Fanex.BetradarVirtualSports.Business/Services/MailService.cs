@@ -47,6 +47,7 @@ public class MailServiceImp : MailService
             { Product.VS2, "[Betradar Virtual Sports] - Monthly Report" },
             { Product.VS3, "[Virtual Sports 3] - Monthly Report" },
             { Product.VS4, "[Virtual Sports 4] - Monthly Report" },
+            { Product.VS5, "[Virtual Sports 5] - Monthly Report" },
         };
 
         var attachments = new List<MailAttachment>

@@ -1,8 +1,8 @@
 ﻿using Fanex.BetradarVirtualSports.Business.Models;
 using Fanex.MailDelivery.Core.Models;
-using RazorEngine;
-using RazorEngine.Templating;
+using RazorEngineCore;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 
@@ -15,14 +15,9 @@ public interface MailService
     Mail CreateMailMonthly(string fileName, Product product);
 }
 
-public class MailServiceImp : MailService
+public class MailServiceImp(DateRangeService dateRangeService) : MailService
 {
-    private readonly DateRangeService dateRangeService;
-
-    public MailServiceImp(DateRangeService dateRangeService)
-    {
-        this.dateRangeService = dateRangeService;
-    }
+    private static readonly ConcurrentDictionary<int, IRazorEngineCompiledTemplate> CompiledTemplateCache = new();
 
     public Mail CreateMailDaily(string fileName)
     {
@@ -69,14 +64,17 @@ public class MailServiceImp : MailService
     private string LoadBodyDaily()
     {
         var date = $"{dateRangeService.DateRange().RptDate:MM/dd/yyyy}";
-        var model = new Tuple<string>(date);
-        var template = File.ReadAllText("Templates/Daily-Template.cshtml");
-        const string tplKey = "Fanex.BetradarVirtualSports.Service-Daily";
-        var result = Engine.Razor.IsTemplateCached(tplKey, null)
-            ? Engine.Razor.Run(tplKey, null, model)
-            : Engine.Razor.RunCompile(template, tplKey, model: model);
+        var tuple = new Tuple<string>(date);
+        const string templatePath = "Templates/Daily-Template.cshtml";
+        var hashCode = templatePath.GetHashCode();
+        var compiledTemplate = CompiledTemplateCache.GetOrAdd(hashCode, _ =>
+        {
+            var template = File.ReadAllText(templatePath);
+            var razorEngine = new RazorEngine();
+            return razorEngine.Compile(template);
+        });
 
-        return result;
+        return compiledTemplate.Run(tuple);
     }
 
     private string LoadBodyMonthly(Product product)
@@ -84,13 +82,16 @@ public class MailServiceImp : MailService
         var date = dateRangeService.DateRange();
         var fromDate = $"{date.FromDate:MM/dd/yyyy}";
         var toDate = $"{date.ToDate:MM/dd/yyyy}";
-        var model = new Tuple<string, string>(fromDate, toDate);
-        var template = File.ReadAllText($"Templates/Monthly-{product}-Template.cshtml");
-        var tplKey = $"Fanex.BetradarVirtualSports.Service-Monthly-{product}";
-        var result = Engine.Razor.IsTemplateCached(tplKey, null)
-            ? Engine.Razor.Run(tplKey, null, model)
-            : Engine.Razor.RunCompile(template, tplKey, model: model);
+        var tuple = new Tuple<string, string>(fromDate, toDate);
+        var templatePath = $"Templates/Monthly-{product}-Template.cshtml";
+        var hashCode = templatePath.GetHashCode();
+        var compiledTemplate = CompiledTemplateCache.GetOrAdd(hashCode, _ =>
+        {
+            var template = File.ReadAllText(templatePath);
+            var razorEngine = new RazorEngine();
+            return razorEngine.Compile(template);
+        });
 
-        return result;
+        return compiledTemplate.Run(tuple);
     }
 }

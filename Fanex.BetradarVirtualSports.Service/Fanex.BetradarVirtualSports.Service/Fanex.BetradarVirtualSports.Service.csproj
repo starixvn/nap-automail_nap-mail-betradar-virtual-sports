@@ -1,10 +1,15 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
-		<TargetFramework>net7.0</TargetFramework>
+		<TargetFramework>net9.0</TargetFramework>
 		<UserSecretsId>ad974cd7-afb5-499a-a0a1-50eaa25eb29d</UserSecretsId>
 		<CopyRazorGenerateFilesToPublishDirectory>true</CopyRazorGenerateFilesToPublishDirectory>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Remove="C:\Users\robert.tran\.nuget\packages\fanex.mailstation\2.1.2\contentFiles\any\net9.0\app.config.transform" />
+	  <Content Remove="C:\Users\robert.tran\.nuget\packages\fanex.mailstation\2.1.2\contentFiles\any\net9.0\web.config.transform" />
+	</ItemGroup>
 
 	<ItemGroup>
 	  <None Remove="App_Data\DBWH.bodb_dwrs.dwrs.xml" />
@@ -16,19 +21,19 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <PackageReference Include="EPPlus" Version="6.2.9" />
-    <PackageReference Include="Fanex.Data" Version="4.2.3" />
-    <PackageReference Include="Fanex.Data.Repository" Version="4.2.3" />
-    <PackageReference Include="Fanex.Data.SqlServer" Version="4.2.3" />
-    <PackageReference Include="Fanex.Logging" Version="2.0.1" />
-    <PackageReference Include="Fanex.Logging.Extensions" Version="1.0.6" />
-    <PackageReference Include="Fanex.Logging.Extensions.Database" Version="1.0.8" />
-    <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="1.0.1" />
-    <PackageReference Include="Fanex.MailStation" Version="2.1.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="7.0.11" />
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.11" />
+    <PackageReference Include="EPPlus" Version="7.5.2" />
+    <PackageReference Include="Fanex.Data" Version="4.3.2" />
+    <PackageReference Include="Fanex.Data.Repository" Version="4.3.2" />
+    <PackageReference Include="Fanex.Data.SqlServer" Version="4.3.2" />
+    <PackageReference Include="Fanex.Logging" Version="2.0.2" />
+    <PackageReference Include="Fanex.Logging.Extensions" Version="1.1.0" />
+    <PackageReference Include="Fanex.Logging.Extensions.Database" Version="1.1.0" />
+    <PackageReference Include="Fanex.Logging.Sentry.RavenClient" Version="2.0.2" />
+    <PackageReference Include="Fanex.MailStation" Version="2.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="9.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
 	</ItemGroup>
 
   <ItemGroup>

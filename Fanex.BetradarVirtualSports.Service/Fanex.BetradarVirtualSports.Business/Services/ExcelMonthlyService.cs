@@ -17,15 +17,8 @@ public interface ExcelMonthlyService
         );
 }
 
-public class ExcelMonthlyServiceImp : ExcelMonthlyService
+public class ExcelMonthlyServiceImp(DateRangeService dateRangeService) : ExcelMonthlyService
 {
-    private readonly DateRangeService dateRangeService;
-
-    public ExcelMonthlyServiceImp(DateRangeService dateRangeService)
-    {
-        this.dateRangeService = dateRangeService;
-    }
-
     public string Export(
         (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) data, Product product)
     {

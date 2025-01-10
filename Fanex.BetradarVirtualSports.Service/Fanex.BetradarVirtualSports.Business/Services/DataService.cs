@@ -14,17 +14,9 @@ public interface DataService
     bool IsDataAvailable();
 }
 
-public class DataServiceImp : DataService
+public class DataServiceImp(DateRangeService dateService, IDynamicRepository repository)
+    : DataService
 {
-    private readonly DateRangeService dateService;
-    private readonly IDynamicRepository repository;
-
-    public DataServiceImp(DateRangeService dateService, IDynamicRepository repository)
-    {
-        this.dateService = dateService;
-        this.repository = repository;
-    }
-
     public (IEnumerable<GrossWinningDaily> firstResultSet, IEnumerable<GrossWinningDaily> secondResultSet) QueryDailyData()
     {
         var date = dateService.DateRange();

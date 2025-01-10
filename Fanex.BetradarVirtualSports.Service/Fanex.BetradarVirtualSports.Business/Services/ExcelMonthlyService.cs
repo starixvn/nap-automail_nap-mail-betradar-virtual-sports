@@ -121,7 +121,7 @@ public class ExcelMonthlyServiceImp : ExcelMonthlyService
         excelPackage.Workbook.Worksheets.Delete("Total");
         var date = dateRangeService.DateRange();
         var fileName = $"{fileNames[product]}_{date.FromDate:MMddyyyy}_{date.ToDate:MMddyyyy}.xlsx";
-        var path = $@"{AppConfigService.Config.Path}/{DateTime.Now:yyyy}";
+        var path = $@"{AppConfigService.Config.Path}/{DateTime.Now:yyyyMMdd}";
         Directory.CreateDirectory(path);
         var fullPath = $@"{path}/{fileName}";
         excelPackage.SaveAs(new FileInfo(fullPath), AppConfigService.Config.Password);

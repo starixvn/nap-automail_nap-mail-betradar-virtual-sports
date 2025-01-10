@@ -116,7 +116,7 @@ public class ExcelDailyServiceImp : ExcelDailyService
         excelPackage.Workbook.Worksheets.Delete("Total");
         var date = dateRangeService.DateRange();
         var fileName = $"Betradar_Virtual_Sports_Daily_Report_{date.RptDate:MMddyyyy}.xlsx";
-        var path = $@"{AppConfigService.Config.Path}/{DateTime.Now:yyyy}/{DateTime.Now:MM}";
+        var path = $@"{AppConfigService.Config.Path}/{DateTime.Now:yyyyMMdd}";
         Directory.CreateDirectory(path);
         var fullPath = $@"{path}/{fileName}";
         excelPackage.SaveAs(new FileInfo(fullPath), AppConfigService.Config.Password);

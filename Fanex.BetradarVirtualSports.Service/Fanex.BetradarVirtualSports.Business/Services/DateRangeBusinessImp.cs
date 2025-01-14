@@ -11,9 +11,9 @@ public class DateRangeBusinessImp : DateRange
     {
         get
         {
-            var date = DateTime.Now.AddDays(-1);
-            return Convert.ToDateTime(date is { Day: MaxDay, Month: MaxMonth } 
-                ? $"{date:yyyy-MM-01}" 
+            var date = DateTimeOffset.Now.AddDays(-1);
+            return Convert.ToDateTime(date is { Day: MaxDay, Month: MaxMonth }
+                ? $"{date:yyyy-MM-01}"
                 : $"{date.AddMonths(-1):yyyy-MM-01}");
         }
     }
@@ -22,7 +22,7 @@ public class DateRangeBusinessImp : DateRange
     {
         get
         {
-            var date = DateTime.Now.AddDays(-1);
+            var date = DateTimeOffset.Now.AddDays(-1);
             if (date is { Day: MaxDay, Month: MaxMonth })
             {
                 return Convert.ToDateTime($"{date:yyyy-MM-dd}");
@@ -30,7 +30,7 @@ public class DateRangeBusinessImp : DateRange
 
             date = Convert.ToDateTime($"{date:yyyy-MM-dd}");
             var numOfDays = date.Day;
-            return date.AddDays(-numOfDays);
+            return date.Date.AddDays(-numOfDays);
         }
     }
 
@@ -38,7 +38,7 @@ public class DateRangeBusinessImp : DateRange
     {
         get
         {
-            var date = $"{DateTime.Now.AddDays(-1):yyyy/MM/dd}";
+            var date = $"{DateTimeOffset.Now.AddDays(-1):yyyy/MM/dd}";
             return Convert.ToDateTime(date);
         }
     }

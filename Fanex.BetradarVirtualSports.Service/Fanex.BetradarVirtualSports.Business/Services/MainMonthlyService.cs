@@ -37,7 +37,7 @@ public class MainMonthlyServiceImp(
             jobMessage.JobStatus = result.Success ? JobStatus.Success : JobStatus.DataIsNotReady;
             jobMessage.TaskLog = new TaskLog
             {
-                LogTime = DateTime.Now,
+                LogTime = DateTimeOffset.Now.DateTime,
                 Message = result.Message
             };
 

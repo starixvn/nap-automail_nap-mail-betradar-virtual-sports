@@ -9,31 +9,20 @@ public interface MainMonthlyService
     JobMessage Execute(Product product);
 }
 
-public class MainMonthlyServiceImp : MainMonthlyService
+public class MainMonthlyServiceImp(
+    Log log,
+    DataService dataService,
+    ExcelMonthlyService excelService,
+    MailService mailService)
+    : MainMonthlyService
 {
-    private readonly Log log;
-    private readonly DataService dataService;
-    private readonly ExcelMonthlyService excelService;
-    private readonly MailService mailService;
-
-    public MainMonthlyServiceImp(
-        Log log,
-        DataService dataService,
-        ExcelMonthlyService excelService,
-        MailService mailService)
-    {
-        this.log = log;
-        this.dataService = dataService;
-        this.excelService = excelService;
-        this.mailService = mailService;
-    }
-
     public JobMessage Execute(Product product)
     {
         var result = new ExecuteResultModel();
         var jobMessage = new JobMessage();
         try
         {
+            AppConfigService.Counter.Add(1);
             result = SendNotification(product);
         }
         catch (Exception e)
@@ -48,9 +37,19 @@ public class MainMonthlyServiceImp : MainMonthlyService
             jobMessage.JobStatus = result.Success ? JobStatus.Success : JobStatus.DataIsNotReady;
             jobMessage.TaskLog = new TaskLog
             {
-                LogTime = DateTime.Now,
+                LogTime = DateTimeOffset.Now.DateTime,
                 Message = result.Message
             };
+
+            if (AppConfigService.Counter.Count > 0)
+            {
+                AppConfigService.Counter.RemoveAt(0);
+            }
+
+            if (AppConfigService.Counter.Count == 0)
+            {
+                AppConfigService.SafeToRestart = true;
+            }
         }
 
         return jobMessage;

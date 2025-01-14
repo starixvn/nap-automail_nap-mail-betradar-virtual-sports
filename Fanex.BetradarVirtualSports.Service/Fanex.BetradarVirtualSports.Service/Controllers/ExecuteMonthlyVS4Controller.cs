@@ -7,15 +7,8 @@ namespace Fanex.BetradarVirtualSports.Service.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ExecuteMonthlyVS4Controller : ControllerBase
+public class ExecuteMonthlyVS4Controller(MainMonthlyService mainService) : ControllerBase
 {
-    private readonly MainMonthlyService mainService;
-
-    public ExecuteMonthlyVS4Controller(MainMonthlyService mainService)
-    {
-        this.mainService = mainService;
-    }
-
     [HttpGet]
     public JobMessage Get()
     {

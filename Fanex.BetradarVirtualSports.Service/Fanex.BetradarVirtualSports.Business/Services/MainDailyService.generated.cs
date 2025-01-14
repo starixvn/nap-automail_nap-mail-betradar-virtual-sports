@@ -34,6 +34,7 @@ public class MainDailyServiceImp : MainDailyService
         var jobMessage = new JobMessage();
         try
         {
+            AppConfigService.Counter.Add(1);
             result = SendNotification();
         }
         catch (Exception e)
@@ -51,6 +52,16 @@ public class MainDailyServiceImp : MainDailyService
                 LogTime = DateTime.Now,
                 Message = result.Message
             };
+
+            if (AppConfigService.Counter.Count > 0)
+            {
+                AppConfigService.Counter.RemoveAt(0);
+            }
+
+            if (AppConfigService.Counter.Count == 0)
+            {
+                AppConfigService.SafeToRestart = true;
+            }
         }
 
         return jobMessage;

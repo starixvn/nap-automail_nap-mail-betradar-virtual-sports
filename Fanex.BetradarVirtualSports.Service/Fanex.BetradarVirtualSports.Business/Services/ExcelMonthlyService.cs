@@ -117,7 +117,16 @@ public class ExcelMonthlyServiceImp(DateRangeService dateRangeService) : ExcelMo
         var path = $@"{AppConfigService.Config.Path}/{DateTimeOffset.Now:yyyyMMdd}";
         Directory.CreateDirectory(path);
         var fullPath = $@"{path}/{fileName}";
-        excelPackage.SaveAs(new FileInfo(fullPath), AppConfigService.Config.Password);
+
+        if (product == Product.VS4)
+        {
+            excelPackage.SaveAs(new FileInfo(fullPath));
+        }
+        else
+        {
+            excelPackage.SaveAs(new FileInfo(fullPath), AppConfigService.Config.Password);
+        }
+
         return fullPath;
     }
 }

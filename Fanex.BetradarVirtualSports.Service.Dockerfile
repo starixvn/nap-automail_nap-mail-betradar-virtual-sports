@@ -15,7 +15,7 @@ COPY ./Fanex.BetradarVirtualSports.Service/Fanex.BetradarVirtualSports.Service/F
 WORKDIR /src/Fanex.BetradarVirtualSports.Service
 
 RUN dotnet nuget add source https://nuget.nexdev.net/api/v2
-RUN dotnet restore -v n -r linux-x64 
+RUN dotnet restore -v n -r linux-x64
 
 COPY ./Fanex.BetradarVirtualSports.Service/Fanex.BetradarVirtualSports.Service .
 

@@ -14,7 +14,7 @@ public static class ServiceCollectionExtensions
 {
     public static IServiceCollection Services { get; set; } = null!;
 
-    public static void AddConfiguration(this IServiceCollection services)
+    public static void AddConfig(this IServiceCollection services)
     {
         Directory.SetCurrentDirectory(AppDomain.CurrentDomain.BaseDirectory);
         var text = File.ReadAllText("appsettings.json");

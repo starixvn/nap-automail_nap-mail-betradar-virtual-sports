@@ -12,7 +12,7 @@ services.AddControllers();
 
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
-services.AddConfiguration();
+services.AddConfig();
 services.AddFanexSql(configuration);
 services.AddFanexLogSentry(configuration);
 services.AddInternalService();

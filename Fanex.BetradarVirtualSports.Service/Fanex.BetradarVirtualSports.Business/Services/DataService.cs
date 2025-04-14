@@ -9,7 +9,8 @@ public interface DataService
 {
     (IEnumerable<GrossWinningDaily> firstResultSet, IEnumerable<GrossWinningDaily> secondResultSet) QueryDailyData();
 
-    (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) QueryMonthlyData(Product product);
+    (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet)
+        QueryMonthlyData(Product product);
 
     bool IsDataAvailable();
 }
@@ -17,14 +18,16 @@ public interface DataService
 public class DataServiceImp(DateRangeService dateService, IDynamicRepository repository)
     : DataService
 {
-    public (IEnumerable<GrossWinningDaily> firstResultSet, IEnumerable<GrossWinningDaily> secondResultSet) QueryDailyData()
+    public (IEnumerable<GrossWinningDaily> firstResultSet, IEnumerable<GrossWinningDaily> secondResultSet)
+        QueryDailyData()
     {
         var date = dateService.DateRange();
         var criteria = new DailyCriteria { RptDate = date.RptDate };
         return repository.FetchMultiple<GrossWinningDaily, GrossWinningDaily>(criteria);
     }
 
-    public (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) QueryMonthlyData(Product product)
+    public (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet)
+        QueryMonthlyData(Product product)
     {
         var date = dateService.DateRange();
         var criteria = new MonthlyCriteria { FromDate = date.FromDate, ToDate = date.ToDate, ProductID = product };

@@ -14,13 +14,14 @@ public interface ExcelMonthlyService
             IEnumerable<GrossWinningMonthly> firstResultSet,
             IEnumerable<GrossWinningMonthly> secondResultSet) data,
         Product product
-        );
+    );
 }
 
 public class ExcelMonthlyServiceImp(DateRangeService dateRangeService) : ExcelMonthlyService
 {
     public string Export(
-        (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) data, Product product)
+        (IEnumerable<GrossWinningMonthly> firstResultSet, IEnumerable<GrossWinningMonthly> secondResultSet) data,
+        Product product)
     {
         var sheetsNames = new Dictionary<Product, string>
         {
@@ -28,6 +29,7 @@ public class ExcelMonthlyServiceImp(DateRangeService dateRangeService) : ExcelMo
             { Product.VS3, "VS3_Monthly" },
             { Product.VS4, "VS4_Monthly" },
             { Product.VS5, "VS5_Monthly" },
+            { Product.VS7, "VS7_Monthly" },
         };
 
         var sheetName = sheetsNames[product];
@@ -66,13 +68,15 @@ public class ExcelMonthlyServiceImp(DateRangeService dateRangeService) : ExcelMo
         var endColumnIndex = excelWorksheet.Dimension.End.Column + 1;
         for (var columnIndex = StartColumnIndex; columnIndex < endColumnIndex; columnIndex++)
         {
-            excelWorksheet.Cells[StartRowIndex, columnIndex, endRowIndex, columnIndex].StyleID = excelWorksheet.Cells[StartRowIndex, columnIndex].StyleID;
+            excelWorksheet.Cells[StartRowIndex, columnIndex, endRowIndex, columnIndex].StyleID =
+                excelWorksheet.Cells[StartRowIndex, columnIndex].StyleID;
         }
 
         excelWorksheet.Columns.BestFit = true;
     }
 
-    private static void FormatTotal(ExcelWorksheet excelWorksheet, ExcelWorksheet excelTotal, List<GrossWinningMonthly> dataTotal)
+    private static void FormatTotal(ExcelWorksheet excelWorksheet, ExcelWorksheet excelTotal,
+        List<GrossWinningMonthly> dataTotal)
     {
         const int one = 1;
         const int three = 3;
@@ -84,7 +88,8 @@ public class ExcelMonthlyServiceImp(DateRangeService dateRangeService) : ExcelMo
         var endRowIndex = excelWorksheet.Dimension.End.Row;
         for (var columnIndex = startColumnIndex; columnIndex < endColumnIndex; columnIndex++)
         {
-            excelWorksheet.Cells[startRowIndex, columnIndex, endRowIndex, columnIndex].StyleID = excelTotal.Cells[four, columnIndex].StyleID;
+            excelWorksheet.Cells[startRowIndex, columnIndex, endRowIndex, columnIndex].StyleID =
+                excelTotal.Cells[four, columnIndex].StyleID;
         }
 
         var endDateRowIndex = startRowIndex;
@@ -109,6 +114,7 @@ public class ExcelMonthlyServiceImp(DateRangeService dateRangeService) : ExcelMo
             { Product.VS3, "Virtual_Sports3_Monthly_Report" },
             { Product.VS4, "Virtual_Sports4_Monthly_Report" },
             { Product.VS5, "Virtual_Sports5_Monthly_Report" },
+            { Product.VS7, "Virtual_Sports7_Monthly_Report" },
         };
 
         excelPackage.Workbook.Worksheets.Delete("Total");

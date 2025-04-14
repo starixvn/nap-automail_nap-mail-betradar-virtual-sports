@@ -43,6 +43,7 @@ public class MailServiceImp(DateRangeService dateRangeService) : MailService
             { Product.VS3, "[Virtual Sports 3] - Monthly Report" },
             { Product.VS4, "[Virtual Sports 4] - Monthly Report" },
             { Product.VS5, "[Virtual Sports 5] - Monthly Report" },
+            { Product.VS7, "[Virtual Sports 7] - Monthly Report" },
         };
 
         var attachments = new List<MailAttachment>

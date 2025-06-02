@@ -12,7 +12,12 @@ public class MonthlyCriteria : CriteriaBase
 
     public Product ProductID { get; set; }
 
-    public override string GetSettingKey() => "Acc_Rpt_Automail_BetradarVS_GrossWinning_Monthly";
+    public override string GetSettingKey()
+    {
+        return ProductID == Product.VS7
+            ? "Acc_Rpt_Automail_VirtualSport_GrossWinning_Monthly"
+            : "Acc_Rpt_Automail_BetradarVS_GrossWinning_Monthly";
+    }
 
     public override bool IsValid() => true;
 }

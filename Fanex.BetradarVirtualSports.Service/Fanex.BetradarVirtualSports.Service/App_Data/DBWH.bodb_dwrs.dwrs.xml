@@ -12,5 +12,10 @@
 				<Mapping DataField="RptDate" ObjectProperty="Date" />
 			</Mappings>
 		</Setting>
+		<Setting Key="Acc_Rpt_Automail_VirtualSport_GrossWinning_Monthly" SpName="Acc_Rpt_Automail_VirtualSport_GrossWinning_Monthly" DbName="DBWH.bodb_dwrs.dwrs" TimeOut="0">
+			<Mappings>
+				<Mapping DataField="RptDate" ObjectProperty="Date" />
+			</Mappings>
+		</Setting>
 	</Function>
 </Functions>
